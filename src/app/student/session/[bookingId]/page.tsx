@@ -1,8 +1,9 @@
+"use client"
 import { useState, useEffect } from 'react';
-import { JitsiMeeting } from '@jitsi/react-sdk';
 import { useAuth } from '@/contexts/AuthContext';
 import { LearningToolsProvider } from '@/components/learning-tools';
 import { ToolsLauncher } from '@/components/learning-tools';
+import { Button } from '@/components/ui/Button';
 
 interface Booking {
   id: string;
@@ -93,27 +94,11 @@ export default function SessionPage({ params }: { params: { bookingId: string } 
   return (
     <LearningToolsProvider questionRef={booking.id} initialText="">
       <div className="h-[calc(100vh-4rem)]">
-        <JitsiMeeting
-          roomName={`tutorbuddy-${params.bookingId}`}
-          configOverwrite={{
-            startWithAudioMuted: true,
-            startWithVideoMuted: false,
-            prejoinPageEnabled: false,
-            disableDeepLinking: true,
-          }}
-          interfaceConfigOverwrite={{
-            SHOW_JITSI_WATERMARK: false,
-            SHOW_WATERMARK_FOR_GUESTS: false,
-            MOBILE_APP_PROMO: false,
-          }}
-          userInfo={{
-            displayName: user?.name,
-            email: user?.email,
-          }}
-          getIFrameRef={(iframeRef) => {
-            iframeRef.style.height = '100%';
-            iframeRef.style.width = '100%';
-          }}
+        <iframe
+          src={`https://meet.jit.si/tutorbuddy-${params.bookingId}#userInfo.displayName=${encodeURIComponent(user?.name || '')}&userInfo.email=${encodeURIComponent(user?.email || '')}`}
+          style={{ width: '100%', height: '100%', border: 0 }}
+          allow="camera; microphone; fullscreen; display-capture"
+          title="Jitsi Meeting"
         />
         <ToolsLauncher />
       </div>

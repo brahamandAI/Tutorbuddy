@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import Navbar from '@/components/navbar'
 import { 
   BookOpen, 
   Users, 
@@ -129,7 +128,6 @@ export default function Home() {
     <LearningToolsProvider questionRef="home-page" initialText="">
       <ToolsLauncher />
       <div className="min-h-screen bg-background">
-        <Navbar />
         
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">

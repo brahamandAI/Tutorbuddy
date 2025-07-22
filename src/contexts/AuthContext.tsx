@@ -63,9 +63,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const data = await response.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
       setUser(data.user);
       setIsAuthenticated(true);
-      router.push('/dashboard');
+      if (data.user.role === 'STUDENT') {
+        router.push('/student/dashboard');
+      } else if (data.user.role === 'TUTOR') {
+        router.push('/tutor/dashboard');
+      } else {
+        router.push('/dashboard'); // fallback
+      }
     } catch (error) {
       console.error('Login error:', error);
       throw error;

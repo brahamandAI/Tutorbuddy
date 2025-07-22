@@ -38,7 +38,8 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.1.6",
     "utf-8-validate": "^6.0.5",
-    "ws": "^8.18.3"
+    "ws": "^8.18.3",
+    "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.2",

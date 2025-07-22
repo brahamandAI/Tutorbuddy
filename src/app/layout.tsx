@@ -3,6 +3,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { Providers } from '@/components/providers'
 import Chatbot from '@/components/Chatbot'
+import Navbar from '@/components/navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen bg-background antialiased`}>
         <Providers>
+          <Navbar />
           {children}
           <Chatbot />
         </Providers>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/Button'
-import { Input } from '@/components/ui/input'
+import { Input } from '@/components/ui/Input'
 import { useToast } from '@/components/ui/use-toast'
 
 export default function LoginPage() {
@@ -24,7 +24,7 @@ export default function LoginPage() {
 
     try {
       await login(email, password)
-      router.push('/dashboard')
+      // Redirection is handled in AuthContext
     } catch (error) {
       toast({
         variant: "destructive",

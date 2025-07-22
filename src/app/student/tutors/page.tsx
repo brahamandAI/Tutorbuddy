@@ -1,7 +1,8 @@
+"use client"
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
 interface TutorProfile {
   id: string;
@@ -91,10 +92,9 @@ export default function TutorsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Input
-            label="Search"
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
             placeholder="Search by name or description..."
           />
 
@@ -117,21 +117,21 @@ export default function TutorsPage() {
           </div>
 
           <Input
-            label="Max Hourly Rate ($)"
             type="number"
             min="0"
             value={maxRate}
-            onChange={(e) => setMaxRate(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMaxRate(e.target.value)}
+            placeholder="Max Rate"
           />
 
           <Input
-            label="Min Rating"
             type="number"
             min="0"
             max="5"
             step="0.1"
             value={minRating}
-            onChange={(e) => setMinRating(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMinRating(e.target.value)}
+            placeholder="Min Rating"
           />
         </div>
       </div>

@@ -1,8 +1,9 @@
+"use client"
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
 type UserRole = 'STUDENT' | 'TUTOR';
 
@@ -15,7 +16,7 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { register } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
@@ -56,30 +57,30 @@ export default function RegisterPage() {
 
           <div className="space-y-4">
             <Input
-              label="Full Name"
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
               required
               autoComplete="name"
+              placeholder="Full Name"
             />
 
             <Input
-              label="Email address"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               required
               autoComplete="email"
+              placeholder="Email address"
             />
 
             <Input
-              label="Password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
               required
               autoComplete="new-password"
+              placeholder="Password"
             />
 
             <div>
@@ -117,9 +118,9 @@ export default function RegisterPage() {
             <Button
               type="submit"
               className="w-full"
-              isLoading={isLoading}
+              disabled={isLoading}
             >
-              Create account
+              {isLoading ? 'Creating account...' : 'Create account'}
             </Button>
           </div>
         </form>

@@ -25,21 +25,26 @@ import {
   Trophy,
   Award
 } from 'lucide-react'
+import Link from 'next/link'
 
 export default function StudentRegistration() {
   const [formData, setFormData] = useState({
     name: '',
     age: '',
-    class: '',
+    grade: '', // changed from class to grade
     subjects: [] as string[],
     mode: '',
     area: '',
     contact: '',
     email: '',
+    password: '', // add password field
     profilePicture: null as File | null
   })
 
   const [step, setStep] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
 
   const classOptions = [
     { value: 'kg', label: 'Kindergarten' },
@@ -93,10 +98,32 @@ export default function StudentRegistration() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
+    setLoading(true)
+    setError(null)
+    setSuccess(false)
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: 'STUDENT',
+          grade: formData.grade,
+          subjects: formData.subjects
+        })
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Registration failed')
+      setSuccess(true)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const nextStep = () => setStep(step + 1)
@@ -106,13 +133,19 @@ export default function StudentRegistration() {
     <div className="min-h-screen bg-background py-12 px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <Button variant="ghost" className="mb-4" onClick={() => window.history.back()}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Student Registration</h1>
-          <p className="text-muted-foreground">Join our AI-powered learning platform</p>
+        <div className="mb-8">
+          <div className="w-full mb-6 rounded-lg bg-primary/10 px-6 py-4 flex items-center justify-between">
+            <span className="text-lg font-semibold text-foreground">
+              Already have an account?
+            </span>
+            <Link href="/login" className="text-primary font-bold underline text-lg hover:text-primary/80 transition">
+              Login here
+            </Link>
+          </div>
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Student Registration</h1>
+            <p className="text-muted-foreground">Join our AI-powered learning platform</p>
+          </div>
         </div>
 
         {/* Progress Steps */}
@@ -152,6 +185,8 @@ export default function StudentRegistration() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {success && <div className="text-green-600 text-sm">Registration successful! Please log in.</div>}
               {step === 1 && (
                 <div className="space-y-6">
                   {/* Profile Picture */}
@@ -207,16 +242,16 @@ export default function StudentRegistration() {
 
               {step === 2 && (
                 <div className="space-y-6">
-                  {/* Class */}
+                  {/* Grade (was Class) */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Current Class/Level</label>
+                    <label className="block text-sm font-medium mb-2">Current Grade/Level</label>
                     <select
-                      value={formData.class}
-                      onChange={(e) => setFormData(prev => ({ ...prev, class: e.target.value }))}
+                      value={formData.grade}
+                      onChange={(e) => setFormData(prev => ({ ...prev, grade: e.target.value }))}
                       className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                       required
                     >
-                      <option value="">Select your class</option>
+                      <option value="">Select your grade</option>
                       {classOptions.map(option => (
                         <option key={option.value} value={option.value}>
                           {option.label}
@@ -343,6 +378,18 @@ export default function StudentRegistration() {
                     />
                   </div>
 
+                  {/* Password */}
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Password</label>
+                    <Input
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                      placeholder="Create a password"
+                      required
+                    />
+                  </div>
+
                   {/* AI Features Info */}
                   <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-4">
                     <div className="flex items-center space-x-2 mb-2">
@@ -373,14 +420,14 @@ export default function StudentRegistration() {
                     onClick={nextStep}
                     disabled={
                       (step === 1 && (!formData.name || !formData.age)) ||
-                      (step === 2 && (!formData.class || formData.subjects.length === 0 || !formData.mode))
+                      (step === 2 && (!formData.grade || formData.subjects.length === 0 || !formData.mode))
                     }
                   >
                     Next
                   </Button>
                 ) : (
-                  <Button type="submit" className="w-full">
-                    Complete Registration
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? 'Registering...' : 'Complete Registration'}
                   </Button>
                 )}
               </div>

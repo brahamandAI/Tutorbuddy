@@ -50,12 +50,15 @@ export async function POST(req: NextRequest) {
           subjects: [],
           hourlyRate: 0,
           bio: '',
+          availability: [], // Add default empty array for required field
         },
       });
     } else if (role === 'STUDENT') {
       await prisma.studentProfile.create({
         data: {
           userId: user.id,
+          grade: '', // Provide default value for required field
+          subjects: [],
         },
       });
     }

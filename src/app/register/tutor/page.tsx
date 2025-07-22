@@ -28,6 +28,7 @@ import {
   FileText,
   Languages
 } from 'lucide-react'
+import Link from 'next/link'
 
 export default function TutorRegistration() {
   const [formData, setFormData] = useState({
@@ -39,6 +40,7 @@ export default function TutorRegistration() {
     experience: '',
     profilePicture: null as File | null,
     email: '',
+    password: '', // <-- Add password field
     contact: '',
     bio: '',
     hourlyRate: '',
@@ -46,6 +48,9 @@ export default function TutorRegistration() {
   })
 
   const [step, setStep] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
 
   const qualificationOptions = [
     'B.Tech/B.E.', 'M.Tech/M.E.', 'B.Sc.', 'M.Sc.', 'B.A.', 'M.A.', 'Ph.D.',
@@ -106,10 +111,30 @@ export default function TutorRegistration() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
+    setLoading(true)
+    setError(null)
+    setSuccess(false)
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          name: formData.name,
+          role: 'TUTOR'
+        })
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Registration failed')
+      setSuccess(true)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const nextStep = () => setStep(step + 1)
@@ -119,13 +144,19 @@ export default function TutorRegistration() {
     <div className="min-h-screen bg-background py-12 px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <Button variant="ghost" className="mb-4" onClick={() => window.history.back()}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Tutor Registration</h1>
-          <p className="text-muted-foreground">Join our platform as an expert tutor</p>
+        <div className="mb-8">
+          <div className="w-full mb-6 rounded-lg bg-primary/10 px-6 py-4 flex items-center justify-between">
+            <span className="text-lg font-semibold text-foreground">
+              Already have an account?
+            </span>
+            <Link href="/login" className="text-primary font-bold underline text-lg hover:text-primary/80 transition">
+              Login here
+            </Link>
+          </div>
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Tutor Registration</h1>
+            <p className="text-muted-foreground">Join our platform as an expert tutor</p>
+          </div>
         </div>
 
         {/* Progress Steps */}
@@ -167,6 +198,8 @@ export default function TutorRegistration() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+              {success && <div className="text-green-600 text-sm">Registration successful! Please log in.</div>}
               {step === 1 && (
                 <div className="space-y-6">
                   {/* Profile Picture */}
@@ -212,6 +245,18 @@ export default function TutorRegistration() {
                       value={formData.email}
                       onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                       placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+
+                  {/* Password */}
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Password</label>
+                    <Input
+                      type="password"
+                      value={formData.password}
+                      onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                      placeholder="Create a password"
                       required
                     />
                   </div>
@@ -461,7 +506,7 @@ export default function TutorRegistration() {
                     type="button" 
                     onClick={nextStep}
                     disabled={
-                      (step === 1 && (!formData.name || !formData.email || !formData.contact)) ||
+                      (step === 1 && (!formData.name || !formData.email || !formData.password || !formData.contact)) ||
                       (step === 2 && (!formData.qualifications || !formData.experience || formData.subjects.length === 0)) ||
                       (step === 3 && (!formData.mode || !formData.hourlyRate || formData.languages.length === 0))
                     }
@@ -469,8 +514,8 @@ export default function TutorRegistration() {
                     Next
                   </Button>
                 ) : (
-                  <Button type="submit" className="w-full">
-                    Complete Registration
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? 'Registering...' : 'Complete Registration'}
                   </Button>
                 )}
               </div>

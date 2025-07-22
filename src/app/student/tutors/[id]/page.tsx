@@ -1,6 +1,7 @@
+"use client"
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 interface TutorProfile {
   id: string;
@@ -226,7 +227,7 @@ export default function TutorDetailPage() {
                 type="date"
                 min={new Date().toISOString().split('T')[0]}
                 value={selectedDate?.toISOString().split('T')[0] || ''}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const date = new Date(e.target.value);
                   setSelectedDate(date);
                   setSelectedTime(null);
@@ -242,7 +243,7 @@ export default function TutorDetailPage() {
                 </label>
                 <select
                   value={selectedTime || ''}
-                  onChange={(e) => setSelectedTime(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTime(e.target.value)}
                   className="block w-full px-3 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                 >
                   <option value="">Select a time</option>
@@ -258,11 +259,10 @@ export default function TutorDetailPage() {
 
           <Button
             onClick={handleBooking}
-            disabled={!selectedDate || !selectedTime}
-            isLoading={isBooking}
-            className="mt-4"
+            disabled={isBooking}
+            className="w-full mt-4"
           >
-            Book Session
+            {isBooking ? 'Booking...' : 'Book Session'}
           </Button>
         </div>
 
