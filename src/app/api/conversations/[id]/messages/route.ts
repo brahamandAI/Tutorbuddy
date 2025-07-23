@@ -57,17 +57,8 @@ export async function GET(
       },
     });
 
-    // Mark unread messages as read
-    await prisma.message.updateMany({
-      where: {
-        conversationId: params.id,
-        recipientId: user.id,
-        readAt: null,
-      },
-      data: {
-        readAt: new Date(),
-      },
-    });
+    // Note: Message read status is not implemented in the current schema
+    // This would require adding a readAt field to the Message model
 
     return NextResponse.json(messages);
   } catch (error) {
@@ -141,7 +132,7 @@ export async function POST(
         conversationId: params.id,
         content,
         senderId: user.id,
-        recipientId: conversation.tutor.userId,
+        receiverId: conversation.tutor.userId,
       },
     });
 

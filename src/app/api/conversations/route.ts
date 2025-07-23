@@ -53,10 +53,7 @@ export async function GET(req: NextRequest) {
           select: {
             messages: {
               where: {
-                AND: [
-                  { recipientId: user.id },
-                  { readAt: null },
-                ],
+                receiverId: user.id,
               },
             },
           },

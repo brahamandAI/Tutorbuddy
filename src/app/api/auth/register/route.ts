@@ -44,14 +44,34 @@ export async function POST(req: NextRequest) {
 
     // Create profile based on role
     if (role === 'TUTOR') {
+      const {
+        bio,
+        subjects,
+        hourlyRate,
+        availability,
+        qualifications,
+        mode,
+        location,
+        experience,
+        contact,
+        languages,
+        profilePicture
+      } = body;
       await prisma.tutorProfile.create({
         data: {
           userId: user.id,
-          subjects: [],
-          hourlyRate: 0,
-          bio: '',
-          availability: [], // Add default empty array for required field
-        },
+          bio: bio || '',
+          subjects: subjects || [],
+          hourlyRate: hourlyRate || 0,
+          availability: availability || [],
+          qualifications: qualifications || '',
+          mode: mode || '',
+          location: location || '',
+          experience: experience || '',
+          contact: contact || '',
+          languages: languages || [],
+          profilePicture: profilePicture || '',
+        } as import('@prisma/client').Prisma.TutorProfileUncheckedCreateInput,
       });
     } else if (role === 'STUDENT') {
       await prisma.studentProfile.create({

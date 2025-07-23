@@ -74,7 +74,12 @@ export const MagicExplain = () => {
   return (
     <Modal open={currentTool === 'magicExplain'} onClose={closeTool} title="Magic Explain">
       <div className="flex flex-col gap-4">
-        <Select label="Explain as" value={level} onChange={setLevel} options={levels} />
+        <Select 
+          label="Explain as" 
+          value={level} 
+          onChange={(value: string) => setLevel(value as ExplainLevel)} 
+          options={levels} 
+        />
         <TextArea label="Text to explain" value={text} onChange={setText} rows={3} />
         <button className="bg-blue-600 text-white rounded px-4 py-2 mt-2" onClick={handleExplain} disabled={loading}>
           {loading ? 'Explaining...' : 'Explain'}

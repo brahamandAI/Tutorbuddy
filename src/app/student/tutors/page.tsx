@@ -12,7 +12,14 @@ interface TutorProfile {
   subjects: string[];
   hourlyRate: number;
   bio: string;
-  rating: number;
+  rating?: number;
+  qualifications?: string;
+  mode?: string;
+  location?: string;
+  experience?: string;
+  contact?: string;
+  languages?: string[];
+  profilePicture?: string;
 }
 
 const SUBJECTS = [
@@ -74,7 +81,7 @@ export default function TutorsPage() {
     
     const matchesRate = !maxRate || tutor.hourlyRate <= parseFloat(maxRate);
     
-    const matchesRating = !minRating || tutor.rating >= parseFloat(minRating);
+    const matchesRating = !minRating || (tutor.rating && tutor.rating >= parseFloat(minRating));
 
     return matchesSearch && matchesSubject && matchesRate && matchesRating;
   });
@@ -154,7 +161,7 @@ export default function TutorsPage() {
               </h2>
               <div className="flex items-center">
                 <span className="text-yellow-400 mr-1">★</span>
-                <span className="text-gray-600">{tutor.rating.toFixed(1)}</span>
+                <span className="text-gray-600">{tutor.rating ? tutor.rating.toFixed(1) : 'N/A'}</span>
               </div>
             </div>
 

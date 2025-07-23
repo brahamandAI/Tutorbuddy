@@ -58,6 +58,13 @@ export async function POST(req: NextRequest) {
     const duration = (new Date(booking.endTime).getTime() - new Date(booking.startTime).getTime()) / (1000 * 60 * 60);
     const amount = Math.round(booking.tutor.hourlyRate * duration * 100); // Convert to cents
 
+    if (!stripe) {
+      return NextResponse.json(
+        { error: 'Payment service not configured' },
+        { status: 503 }
+      );
+    }
+
     // Create payment intent
     const paymentIntent = await stripe.paymentIntents.create({
       amount,

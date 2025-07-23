@@ -20,7 +20,7 @@ import {
   Smartphone,
   CheckCircle,
   ArrowRight,
-  WhatsApp,
+  MessageCircle as WhatsApp,
   Mail as MailIcon,
   Calendar,
   Star

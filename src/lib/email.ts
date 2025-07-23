@@ -1,10 +1,9 @@
 import sgMail from '@sendgrid/mail';
 
-if (!process.env.SENDGRID_API_KEY) {
-  throw new Error('SENDGRID_API_KEY is not set in environment variables');
+// Only configure SendGrid if API key is available
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 }
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 interface EmailData {
   to: string;
@@ -14,6 +13,13 @@ interface EmailData {
 }
 
 export async function sendEmail(data: EmailData) {
+  if (!process.env.SENDGRID_API_KEY) {
+    console.log('Email service not configured. Skipping email send.');
+    console.log('Email would have been sent to:', data.to);
+    console.log('Subject:', data.subject);
+    return;
+  }
+
   const msg = {
     to: data.to,
     from: process.env.EMAIL_FROM!,

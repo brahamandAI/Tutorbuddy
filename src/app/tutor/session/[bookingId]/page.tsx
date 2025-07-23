@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { JitsiMeeting } from '@jitsi/react-sdk';
 import { useAuth } from '@/contexts/AuthContext';
@@ -107,8 +109,8 @@ export default function TutorSessionPage({ params }: { params: { bookingId: stri
             MOBILE_APP_PROMO: false,
           }}
           userInfo={{
-            displayName: user?.name,
-            email: user?.email,
+            displayName: user?.name || 'Tutor',
+            email: user?.email || '',
           }}
           getIFrameRef={(iframeRef) => {
             iframeRef.style.height = '100%';

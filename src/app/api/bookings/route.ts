@@ -48,7 +48,6 @@ export async function POST(req: NextRequest) {
     // Check if tutor exists
     const tutor = await prisma.tutorProfile.findUnique({
       where: { id: tutorId },
-      include: { availability: true },
     });
 
     if (!tutor) {
@@ -63,7 +62,9 @@ export async function POST(req: NextRequest) {
     const dayOfWeek = bookingDate.getDay();
     const bookingStartTime = `${bookingDate.getHours().toString().padStart(2, '0')}:${bookingDate.getMinutes().toString().padStart(2, '0')}`;
     
-    const isAvailable = tutor.availability.some(slot => 
+    // Parse availability JSON and check if tutor is available
+    const availability = tutor.availability as any;
+    const isAvailable = availability && Array.isArray(availability) && availability.some((slot: any) => 
       slot.dayOfWeek === dayOfWeek &&
       slot.startTime <= bookingStartTime &&
       slot.endTime > bookingStartTime
@@ -111,8 +112,8 @@ export async function POST(req: NextRequest) {
         studentId: studentProfile.id,
         startTime: new Date(startTime),
         endTime: new Date(endTime),
+        subject: 'General', // Default subject since it's required
         status: 'pending',
-        paymentStatus: 'pending',
       },
     });
 

@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 const DAYS = [
   'Sunday',
@@ -205,10 +207,10 @@ export default function AvailabilityPage() {
 
         <Button
           type="submit"
-          isLoading={saving}
+          disabled={saving}
           className="w-full md:w-auto"
         >
-          Save Changes
+          {saving ? 'Saving...' : 'Save Changes'}
         </Button>
       </form>
     </div>

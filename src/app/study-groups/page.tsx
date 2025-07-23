@@ -149,7 +149,7 @@ export default function StudyGroups() {
     if (socket && selectedGroup) {
       socket.emit('join-room', `group:${selectedGroup.id}`);
       // Listen for group messages
-      const handleGroupMessage = (message) => {
+      const handleGroupMessage = (message: any) => {
         setMessages((prev) => [...prev, message]);
       };
       socket.on('group-message', handleGroupMessage);
@@ -185,12 +185,12 @@ export default function StudyGroups() {
   // Send message via socket
   const sendMessage = () => {
     if (newMessage.trim()) {
-      const message = {
+      const message: Message = {
         id: Date.now().toString(),
         sender: 'You', // Replace with actual user name if available
         content: newMessage,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        type: 'text',
+        type: 'text' as const,
       };
       setMessages((prev) => [...prev, message]);
       if (socket && selectedGroup) {

@@ -124,7 +124,11 @@ export default function TutorRegistration() {
           email: formData.email,
           password: formData.password,
           name: formData.name,
-          role: 'TUTOR'
+          role: 'TUTOR',
+          bio: formData.bio,
+          subjects: formData.subjects,
+          hourlyRate: parseFloat(formData.hourlyRate),
+          availability: [], // You may want to collect this from the form in the future
         })
       })
       const data = await res.json()

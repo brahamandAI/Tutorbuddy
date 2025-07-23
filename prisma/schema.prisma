@@ -51,6 +51,13 @@ model TutorProfile {
   subjects     String[]
   hourlyRate   Float
   availability Json
+  qualifications String
+  mode           String
+  location       String
+  experience     String
+  contact        String
+  languages      String[]
+  profilePicture String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

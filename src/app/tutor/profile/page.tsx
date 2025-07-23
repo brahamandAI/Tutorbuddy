@@ -1,7 +1,8 @@
+"use client";
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
 // Common subjects list
 const SUBJECTS = [
@@ -133,12 +134,11 @@ export default function TutorProfilePage() {
         </div>
 
         <Input
-          label="Hourly Rate ($)"
           type="number"
           min="0"
           step="0.01"
           value={hourlyRate}
-          onChange={(e) => setHourlyRate(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHourlyRate(e.target.value)}
           required
         />
 
@@ -166,7 +166,6 @@ export default function TutorProfilePage() {
 
         <Button
           type="submit"
-          isLoading={saving}
           className="w-full md:w-auto"
         >
           Save Changes

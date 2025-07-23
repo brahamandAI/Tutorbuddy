@@ -17,6 +17,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Payment service not configured' },
+      { status: 503 }
+    );
+  }
+
   try {
     const event = stripe.webhooks.constructEvent(
       body,
@@ -56,7 +63,6 @@ export async function POST(req: NextRequest) {
         await prisma.booking.update({
           where: { id: bookingId },
           data: {
-            paymentStatus: 'paid',
             status: 'confirmed',
           },
         });
@@ -89,14 +95,16 @@ export async function POST(req: NextRequest) {
         });
 
         // Emit socket events
-        io.to(`user:${booking.student.userId}`).emit('payment_success', {
-          bookingId: booking.id,
-        });
+        if (io) {
+          io.to(`user:${booking.student.userId}`).emit('payment_success', {
+            bookingId: booking.id,
+          });
 
-        io.to(`user:${booking.tutor.userId}`).emit('booking_confirmed', {
-          bookingId: booking.id,
-          studentName: booking.student.user.name,
-        });
+          io.to(`user:${booking.tutor.userId}`).emit('booking_confirmed', {
+            bookingId: booking.id,
+            studentName: booking.student.user.name,
+          });
+        }
 
         break;
       }
@@ -130,7 +138,7 @@ export async function POST(req: NextRequest) {
         await prisma.booking.update({
           where: { id: bookingId },
           data: {
-            paymentStatus: 'failed',
+            status: 'cancelled',
           },
         });
 
@@ -142,9 +150,11 @@ export async function POST(req: NextRequest) {
         });
 
         // Emit socket event
-        io.to(`user:${booking.student.userId}`).emit('payment_failed', {
-          bookingId: booking.id,
-        });
+        if (io) {
+          io.to(`user:${booking.student.userId}`).emit('payment_failed', {
+            bookingId: booking.id,
+          });
+        }
 
         break;
       }

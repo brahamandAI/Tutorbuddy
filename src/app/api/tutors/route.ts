@@ -6,15 +6,21 @@ const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   try {
+    console.log('🔍 Debug: Tutors endpoint called');
     const { user, error } = await authenticateUser(req);
     
+    console.log('🔍 Debug: Authentication result:', { user: user ? 'found' : 'not found', error });
+    
     if (error || !user) {
+      console.log('❌ Debug: Returning 401 - Authentication failed');
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
+    console.log('✅ Debug: Authentication successful, proceeding to fetch tutors');
+    
     // Get query parameters
     const url = new URL(req.url);
     const subject = url.searchParams.get('subject');
@@ -37,6 +43,7 @@ export async function GET(req: NextRequest) {
       ];
     }
 
+    console.log('🔍 Debug: Fetching tutors from database');
     const tutors = await prisma.tutorProfile.findMany({
       where,
       include: {
@@ -45,16 +52,13 @@ export async function GET(req: NextRequest) {
             name: true,
           },
         },
-        reviews: {
-          select: {
-            rating: true,
-          },
-        },
       },
       orderBy: {
-        rating: 'desc',
+        createdAt: 'desc',
       },
     });
+
+    console.log('🔍 Debug: Found tutors:', tutors.length);
 
     // Format the response
     const formattedTutors = tutors.map(tutor => ({
@@ -65,13 +69,19 @@ export async function GET(req: NextRequest) {
       subjects: tutor.subjects,
       hourlyRate: tutor.hourlyRate,
       bio: tutor.bio,
-      rating: tutor.rating,
-      reviewCount: tutor.reviews.length,
+      qualifications: (tutor as any).qualifications || '',
+      mode: (tutor as any).mode || '',
+      location: (tutor as any).location || '',
+      experience: (tutor as any).experience || '',
+      contact: (tutor as any).contact || '',
+      languages: (tutor as any).languages || [],
+      profilePicture: (tutor as any).profilePicture || '',
     }));
 
+    console.log('✅ Debug: Returning tutors successfully');
     return NextResponse.json(formattedTutors);
   } catch (error) {
-    console.error('Error fetching tutors:', error);
+    console.error('❌ Debug: Error in tutors endpoint:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

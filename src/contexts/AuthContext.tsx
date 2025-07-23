@@ -29,7 +29,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Check for existing token and validate it
     const checkAuth = async () => {
       try {
-        const response = await fetch('/api/auth/validate');
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/auth/validate', {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+        });
         if (response.ok) {
           const data = await response.json();
           setUser(data.user);

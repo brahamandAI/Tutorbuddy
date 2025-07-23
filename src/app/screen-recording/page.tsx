@@ -88,7 +88,6 @@ export default function ScreenRecording() {
       
       const constraints: MediaStreamConstraints = {
         video: settings.includeVideo ? {
-          mediaSource: 'screen',
           width: { ideal: 1920 },
           height: { ideal: 1080 }
         } : false,

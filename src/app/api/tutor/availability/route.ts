@@ -24,7 +24,6 @@ export async function GET(req: NextRequest) {
 
     const tutorProfile = await prisma.tutorProfile.findUnique({
       where: { userId: user.id },
-      include: { availability: true },
     });
 
     if (!tutorProfile) {
@@ -99,26 +98,15 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    // Delete existing availability
-    await prisma.availability.deleteMany({
-      where: { tutorId: tutorProfile.id },
+    // Update availability in the tutor profile
+    const updatedProfile = await prisma.tutorProfile.update({
+      where: { userId: user.id },
+      data: {
+        availability: availability,
+      },
     });
 
-    // Create new availability slots
-    const newAvailability = await Promise.all(
-      availability.map(slot =>
-        prisma.availability.create({
-          data: {
-            tutorId: tutorProfile.id,
-            dayOfWeek: slot.dayOfWeek,
-            startTime: slot.startTime,
-            endTime: slot.endTime,
-          },
-        })
-      )
-    );
-
-    return NextResponse.json(newAvailability);
+    return NextResponse.json(updatedProfile.availability);
   } catch (error) {
     console.error('Error updating availability:', error);
     return NextResponse.json(

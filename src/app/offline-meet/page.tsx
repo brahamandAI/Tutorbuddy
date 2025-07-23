@@ -21,7 +21,7 @@ import {
   ArrowRight,
   Filter,
   Search,
-  Location,
+  MapPin as Location,
   Clock4,
   User,
   GraduationCap,

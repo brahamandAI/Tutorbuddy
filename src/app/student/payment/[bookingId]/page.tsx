@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -26,17 +27,17 @@ function PaymentForm({ clientSecret }: { clientSecret: string }) {
 
     setProcessing(true);
 
-    const { error: paymentError, paymentIntent } = await stripe.confirmPayment({
+    const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/student/bookings`,
       },
     });
 
-    if (paymentError) {
-      setError(paymentError.message || 'An error occurred');
+    if (result.error) {
+      setError(result.error.message || 'An error occurred');
       setProcessing(false);
-    } else if (paymentIntent.status === 'succeeded') {
+    } else {
       setSucceeded(true);
     }
   };
