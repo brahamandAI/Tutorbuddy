@@ -12,9 +12,21 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          echo "Private key received and written to ~/.ssh/id_rsa"
+          ls -l ~/.ssh
+          echo "First 5 lines of private key (for debug):"
+          head -5 ~/.ssh/id_rsa
 
       - name: Add server to known_hosts
-        run: ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          echo "known_hosts file after ssh-keyscan:"
+          cat ~/.ssh/known_hosts
+
+      - name: Print public key (for debugging)
+        run: |
+          ssh-keygen -y -f ~/.ssh/id_rsa
+          echo "Above is the public key derived from the private key"
 
       - name: Test SSH connection
-        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful!'" 
+        run: ssh -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "echo 'SSH connection successful!'" 
