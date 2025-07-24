@@ -68,7 +68,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash <<'EOSSH'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash <<EOF
             cd /home/tutorbuddy/htdocs/tutorbuddy.co/Tutorbuddy
             echo "Pulling latest code..."
             git pull origin main
@@ -85,4 +85,4 @@ jobs:
             
             echo "Deployment completed successfully!"
             pm2 status
-          EOF
+EOF
