@@ -91,7 +91,8 @@ export default function Home() {
     { number: "50,000+", label: "Students Enrolled" },
     { number: "2,000+", label: "Expert Tutors" },
     { number: "100+", label: "Delhi Locations" },
-    { number: "95%", label: "Success Rate" }
+    { number: "95%", label: "Success Rate" },
+    { number: "🚀", label: "CI/CD Deployed!" }
   ]
 
   const testimonials = [
