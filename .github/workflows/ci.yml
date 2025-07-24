@@ -85,8 +85,9 @@ jobs:
             echo "Building application..."
             npm run build
             
-            echo "Restarting PM2 process..."
-            pm2 restart tutorbuddy
+            echo "Restarting PM2 process (delete and start fresh)..."
+            pm2 delete tutorbuddy || true
+            pm2 start ecosystem.config.js --env production
             
             echo "Deployment completed successfully!"
             pm2 status

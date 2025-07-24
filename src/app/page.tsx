@@ -128,7 +128,12 @@ export default function Home() {
   return (
     <LearningToolsProvider questionRef="home-page" initialText="">
       <ToolsLauncher />
-      <div className="min-h-screen bg-background">
+      {/* BIG YELLOW BANNER */}
+      <div style={{ width: '100%', background: '#fffbe6', padding: '24px 0', textAlign: 'center', fontSize: '2rem', fontWeight: 'bold', color: '#b8860b', letterSpacing: '1px', borderBottom: '4px solid #ffe066', zIndex: 1000 }}>
+        🚀 This site was just deployed automatically by CI/CD!
+      </div>
+      {/* Main content with light yellow background */}
+      <div className="min-h-screen" style={{ background: '#fffde7' }}>
         
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-secondary/5">
@@ -143,10 +148,9 @@ export default function Home() {
                   </Badge>
                 </div>
                 
-                <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-                  Smart Teaching. Smarter Students
-                  <br />
-                  <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Fueling Futures with AI</span>
+                {/* CHANGED MAIN HEADING */}
+                <h1 className="text-5xl font-extrabold tracking-tight text-foreground sm:text-7xl lg:text-8xl" style={{ color: '#b8860b' }}>
+                  🎉 Welcome to the New Tutorbuddy! (CI/CD Test)
                 </h1>
                 
                 <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
@@ -463,6 +467,20 @@ export default function Home() {
                   </Link>
                 </Button>
               </div>
+            </div>
+          </div>
+        </section>
+        {/* NEW SECTION AT THE BOTTOM */}
+        <section className="py-24 px-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <div style={{ background: '#d4edda', border: '3px solid #28a745', borderRadius: '2rem', padding: '3rem', marginTop: '2rem' }}>
+              <h2 style={{ color: '#155724', fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+                🟢 If you see this, your CI/CD is working perfectly!
+              </h2>
+              <p style={{ color: '#155724', fontSize: '1.5rem' }}>
+                This is a big visible change deployed automatically.<br />
+                <b>Congratulations!</b>
+              </p>
             </div>
           </div>
         </section>
