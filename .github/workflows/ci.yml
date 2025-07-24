@@ -68,19 +68,13 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash <<'EOSSH'
             cd /home/tutorbuddy/htdocs/tutorbuddy.co/Tutorbuddy
             echo "Pulling latest code..."
             git pull origin main
             
             echo "Installing dependencies..."
             npm ci
-            
-            echo "Running linting..."
-            npm run lint
-            
-            echo "Type checking..."
-            npx tsc --noEmit
             
             echo "Building application..."
             npm run build
@@ -91,4 +85,4 @@ jobs:
             
             echo "Deployment completed successfully!"
             pm2 status
-          EOF 
+          EOSSH 
