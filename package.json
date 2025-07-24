@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "test": "npm run lint && npm run type-check && npm run build",
+    "test:ci": "npm ci && npm run test",
+    "deploy": "./scripts/deploy.sh"
   },
   "dependencies": {
     "@jitsi/react-sdk": "^1.4.4",
