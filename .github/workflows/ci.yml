@@ -59,30 +59,5 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
       - name: Deploy to server
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash <<EOF
-            cd /home/tutorbuddy/htdocs/tutorbuddy.co/Tutorbuddy
-            echo "Pulling latest code..."
-            git pull origin main
-            
-            echo "Installing dependencies..."
-            npm ci
-            
-            echo "Building application..."
-            npm run build
-            
-            echo "Restarting PM2 process (delete and start fresh)..."
-            pm2 delete tutorbuddy || true
-            pm2 start ecosystem.config.js --env production
-            
-            echo "Deployment completed successfully!"
-            pm2 status
-EOF
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} 'bash /home/tutorbuddy/deploy.sh'
