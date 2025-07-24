@@ -118,7 +118,7 @@ export default function Home() {
       name: "Mrs. Mehta",
       role: "Parent",
       avatar: "/avatars/mehta.jpg",
-      content: "My daughter's confidence has improved tremendously. The offline sessions in Saket are very convenient.",
+      content: "My daughter&apos;s confidence has improved tremendously. The offline sessions in Saket are very convenient.",
       rating: 5,
       subject: "English & Hindi",
       location: "Saket"
