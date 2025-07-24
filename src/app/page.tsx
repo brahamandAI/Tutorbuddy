@@ -72,7 +72,7 @@ export default function Home() {
     },
     {
       icon: <Monitor className="h-8 w-8" />,
-      title: "Online & Offline",
+      title: "Online and Offline",
       description: "Flexible learning modes - attend classes online or meet tutors in Delhi"
     },
     {
