@@ -130,7 +130,7 @@ export default function Home() {
       <ToolsLauncher />
       {/* BIG BURREYYY BANNER */}
       <div style={{ width: '100%', background: '#ffb347', padding: '32px 0', textAlign: 'center', fontSize: '3rem', fontWeight: 'bold', color: '#fff', letterSpacing: '2px', borderBottom: '6px solid #ff8300', zIndex: 2000 }}>
-        Burrreeeeyyyyy!!!!!!!!!!!!
+        kkkkkkkkkkkkkuuuuuuuuuuurrreeeeyyyyy!!!!!!!!!!!!
       </div>
       {/* BIG YELLOW BANNER */}
       <div style={{ width: '100%', background: '#fffbe6', padding: '24px 0', textAlign: 'center', fontSize: '2rem', fontWeight: 'bold', color: '#b8860b', letterSpacing: '1px', borderBottom: '4px solid #ffe066', zIndex: 1000 }}>
