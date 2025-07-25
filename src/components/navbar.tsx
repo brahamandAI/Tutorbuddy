@@ -56,7 +56,7 @@ export default function Navbar() {
               <img 
                 src="/images/logo.jpeg" 
                 alt="TutorBuddy Logo" 
-                className="h-10 w-auto rounded-lg"
+                className="h-16 w-auto rounded-lg"
               />
               <span className="font-bold text-xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 TutorBuddy

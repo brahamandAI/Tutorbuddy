@@ -162,7 +162,11 @@ export default function PaymentPage({ params }: { params: { bookingId: string } 
           <p>
             <span className="text-gray-600">Rate:</span>{' '}
             <span className="font-medium">
+<<<<<<< HEAD
                                       ₹{booking.tutor.hourlyRate}/hour
+=======
+              {booking.tutor.hourlyRate}/hour
+>>>>>>> 009bd45 (logo updated)
             </span>
           </p>
         </div>

@@ -53,13 +53,13 @@ export default function ContactPage() {
     {
       icon: <Phone className="h-6 w-6" />,
       title: "Phone",
-      details: ["+91 98765 43210", "+91 98765 43211"],
+      details: ["+91 90900 20245"],
       color: "text-blue-600"
     },
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Email",
-      details: ["info@tutorbuddy.com", "support@tutorbuddy.com"],
+      details: ["info@therobostrix.com"],
       color: "text-green-600"
     },
     {
@@ -74,19 +74,19 @@ export default function ContactPage() {
     {
       name: "Lajpat Nagar Center",
       address: "Shop No. 15, Lajpat Nagar Central Market, New Delhi - 110024",
-      phone: "+91 98765 43212",
+      phone: "+91 90900 20245",
       hours: "Mon-Sat: 9:00 AM - 8:00 PM"
     },
     {
       name: "Dwarka Center",
       address: "Plot No. 8, Sector 12, Dwarka, New Delhi - 110078",
-      phone: "+91 98765 43213",
+      phone: "+91 90900 20245",
       hours: "Mon-Sat: 9:00 AM - 8:00 PM"
     },
     {
       name: "Saket Center",
       address: "Shop No. 22, Saket District Center, New Delhi - 110017",
-      phone: "+91 98765 43214",
+      phone: "+91 90900 20245",
       hours: "Mon-Sat: 9:00 AM - 8:00 PM"
     }
   ]
@@ -105,7 +105,7 @@ export default function ContactPage() {
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent("Hi! I'm interested in learning more about TutorBuddy's AI-powered tutoring platform.")
-    window.open(`https://wa.me/919876543210?text=${message}`, '_blank')
+    window.open(`https://wa.me/919090020245?text=${message}`, '_blank')
   }
 
   return (

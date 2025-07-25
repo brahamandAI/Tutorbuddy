@@ -172,7 +172,11 @@ export default function TutorDetailPage() {
             </div>
           </div>
           <div className="text-2xl font-bold text-gray-900">
+<<<<<<< HEAD
                                   ₹{tutor.hourlyRate}/hr
+=======
+            {tutor.hourlyRate}/hr
+>>>>>>> 009bd45 (logo updated)
           </div>
         </div>
 

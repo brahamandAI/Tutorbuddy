@@ -185,7 +185,12 @@ export default function StudentBookingsPage() {
                           <span>{booking.location}</span>
                         </div>
                         <div className="flex items-center space-x-1">
+<<<<<<< HEAD
                           <span>₹{booking.price}</span>
+=======
+                          <DollarSign className="h-4 w-4" />
+                          <span>{booking.price}</span>
+>>>>>>> 009bd45 (logo updated)
                         </div>
                       </div>
                       {booking.rating && (
