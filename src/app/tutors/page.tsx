@@ -149,12 +149,7 @@ export default function TutorsPage() {
                 </div>
                 <div className="text-right">
                   <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-<<<<<<< HEAD
                     <span className="font-semibold text-foreground">₹{tutor.hourlyRate}/hr</span>
-=======
-                    <DollarSign className="h-4 w-4" />
-                    <span className="font-semibold text-foreground">{tutor.hourlyRate}/hr</span>
->>>>>>> 009bd45 (logo updated)
                   </div>
                 </div>
               </div>
