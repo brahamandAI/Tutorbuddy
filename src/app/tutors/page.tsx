@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Search, Star, Clock, DollarSign, MapPin } from 'lucide-react'
+import { Search, Star, Clock, MapPin } from 'lucide-react'
 
 interface Tutor {
   id: string
@@ -149,8 +149,7 @@ export default function TutorsPage() {
                 </div>
                 <div className="text-right">
                   <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-                    <DollarSign className="h-4 w-4" />
-                    <span className="font-semibold text-foreground">${tutor.hourlyRate}/hr</span>
+                    <span className="font-semibold text-foreground">₹{tutor.hourlyRate}/hr</span>
                   </div>
                 </div>
               </div>

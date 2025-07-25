@@ -172,7 +172,7 @@ export default function TutorDetailPage() {
             </div>
           </div>
           <div className="text-2xl font-bold text-gray-900">
-            ${tutor.hourlyRate}/hr
+                                  ₹{tutor.hourlyRate}/hr
           </div>
         </div>
 

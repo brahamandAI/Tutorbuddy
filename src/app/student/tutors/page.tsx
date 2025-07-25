@@ -187,7 +187,7 @@ export default function TutorsPage() {
 
             <div className="flex items-center justify-between">
               <span className="text-lg font-medium text-gray-900">
-                ${tutor.hourlyRate}/hr
+                                        ₹{tutor.hourlyRate}/hr
               </span>
               <Link
                 href={`/student/tutors/${tutor.id}`}

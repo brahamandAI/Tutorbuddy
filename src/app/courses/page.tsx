@@ -12,7 +12,6 @@ import {
   Filter, 
   Star, 
   Clock, 
-  DollarSign, 
   MapPin, 
   BookOpen, 
   Users,
@@ -253,7 +252,6 @@ export default function CoursesPage() {
                       <span>({course.reviews})</span>
                     </div>
                     <div className="flex items-center space-x-1 font-semibold text-foreground">
-                      <DollarSign className="h-4 w-4" />
                       <span>₹{course.price}</span>
                     </div>
                   </div>

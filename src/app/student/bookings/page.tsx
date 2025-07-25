@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Calendar, Clock, DollarSign, Video, MessageSquare, Star, MapPin } from 'lucide-react'
+import { Calendar, Clock, Video, MessageSquare, Star, MapPin } from 'lucide-react'
 
 interface Booking {
   id: string
@@ -185,8 +185,7 @@ export default function StudentBookingsPage() {
                           <span>{booking.location}</span>
                         </div>
                         <div className="flex items-center space-x-1">
-                          <DollarSign className="h-4 w-4" />
-                          <span>${booking.price}</span>
+                          <span>₹{booking.price}</span>
                         </div>
                       </div>
                       {booking.rating && (
