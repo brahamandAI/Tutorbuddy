@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/Input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { mockCourses, type MockCourse } from '@/data/mockCourses'
 import { 
   Search, 
   Filter, 
@@ -30,28 +31,7 @@ import {
   Sparkles
 } from 'lucide-react'
 
-interface Course {
-  id: string
-  title: string
-  subject: string
-  class: string
-  board: string
-  mode: 'online' | 'offline' | 'hybrid'
-  price: number
-  duration: string
-  tutor: {
-    name: string
-    avatar: string
-    rating: number
-    experience: string
-  }
-  syllabus: string[]
-  aiRecommendation: boolean
-  location?: string
-  students: number
-  rating: number
-  reviews: number
-}
+type Course = MockCourse
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([])
@@ -68,96 +48,9 @@ export default function CoursesPage() {
   const modes = ['Online', 'Offline', 'Hybrid']
 
   useEffect(() => {
-    // Simulate API call
+    // Simulate API call with comprehensive mock data
     setTimeout(() => {
-      setCourses([
-        {
-          id: '1',
-          title: 'Complete Mathematics for Class 10',
-          subject: 'Mathematics',
-          class: 'Class 9-10',
-          board: 'CBSE',
-          mode: 'online',
-          price: 2500,
-          duration: '6 months',
-          tutor: {
-            name: 'Dr. Priya Sharma',
-            avatar: '/avatars/priya.jpg',
-            rating: 4.9,
-            experience: '8+ years'
-          },
-          syllabus: ['Algebra', 'Geometry', 'Trigonometry', 'Statistics'],
-          aiRecommendation: true,
-          students: 45,
-          rating: 4.8,
-          reviews: 23
-        },
-        {
-          id: '2',
-          title: 'JEE Physics Preparation',
-          subject: 'Physics',
-          class: 'Competitive Exams',
-          board: 'CBSE',
-          mode: 'hybrid',
-          price: 3500,
-          duration: '8 months',
-          tutor: {
-            name: 'Prof. Rajesh Kumar',
-            avatar: '/avatars/rajesh.jpg',
-            rating: 4.7,
-            experience: '12+ years'
-          },
-          syllabus: ['Mechanics', 'Thermodynamics', 'Electromagnetism', 'Optics'],
-          aiRecommendation: true,
-          location: 'Dwarka',
-          students: 32,
-          rating: 4.9,
-          reviews: 18
-        },
-        {
-          id: '3',
-          title: 'English Grammar & Literature',
-          subject: 'English',
-          class: 'Class 6-8',
-          board: 'ICSE',
-          mode: 'offline',
-          price: 1800,
-          duration: '4 months',
-          tutor: {
-            name: 'Ms. Sarah Johnson',
-            avatar: '/avatars/sarah.jpg',
-            rating: 4.6,
-            experience: '5+ years'
-          },
-          syllabus: ['Grammar', 'Literature', 'Writing Skills', 'Comprehension'],
-          aiRecommendation: false,
-          location: 'Lajpat Nagar',
-          students: 28,
-          rating: 4.7,
-          reviews: 15
-        },
-        {
-          id: '4',
-          title: 'NEET Biology Crash Course',
-          subject: 'Biology',
-          class: 'Competitive Exams',
-          board: 'CBSE',
-          mode: 'online',
-          price: 4200,
-          duration: '6 months',
-          tutor: {
-            name: 'Dr. Amit Patel',
-            avatar: '/avatars/amit.jpg',
-            rating: 4.8,
-            experience: '10+ years'
-          },
-          syllabus: ['Botany', 'Zoology', 'Human Physiology', 'Ecology'],
-          aiRecommendation: true,
-          students: 38,
-          rating: 4.9,
-          reviews: 21
-        }
-      ])
+      setCourses(mockCourses)
       setLoading(false)
     }, 1000)
   }, [])
@@ -410,7 +303,13 @@ export default function CoursesPage() {
         {filteredCourses.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground mb-4">No courses found matching your criteria.</p>
-            <Button>Clear Filters</Button>
+            <Button onClick={() => {
+              setSearchTerm('')
+              setSelectedSubject('')
+              setSelectedClass('')
+              setSelectedBoard('')
+              setSelectedMode('')
+            }}>Clear Filters</Button>
           </div>
         )}
       </div>
