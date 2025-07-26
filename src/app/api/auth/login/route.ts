@@ -29,6 +29,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Check if user has a password (OAuth users might not have one)
+    if (!user.password) {
+      return NextResponse.json(
+        { error: 'Invalid credentials' },
+        { status: 401 }
+      );
+    }
+
     // Verify password
     const isValidPassword = await comparePasswords(password, user.password);
     if (!isValidPassword) {
