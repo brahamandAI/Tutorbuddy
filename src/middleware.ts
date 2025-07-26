@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
   if (isProtectedPath) {
     const token = request.cookies.get('token')?.value;
     if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
     // Let the page handle its own authentication
     return NextResponse.next();

@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { Providers } from '@/components/providers'
 import Chatbot from '@/components/Chatbot'
 import Navbar from '@/components/navbar'
+import { GlobalAuthPopup } from '@/components/GlobalAuthPopup'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Chatbot />
+          <GlobalAuthPopup />
         </Providers>
       </body>
     </html>

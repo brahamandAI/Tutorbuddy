@@ -44,8 +44,11 @@ import {
   MessageCircle
 } from 'lucide-react'
 import { LearningToolsProvider, ToolsLauncher } from '@/components/learning-tools';
+import { useAuthPopup } from '@/hooks/useAuthPopup';
 
 export default function Home() {
+  const { openPopup } = useAuthPopup();
+  
   const delhiLocations = [
     { name: "Lajpat Nagar", students: 150, tutors: 25, rating: 4.8 },
     { name: "Rohini", students: 120, tutors: 20, rating: 4.7 },
@@ -154,17 +157,13 @@ export default function Home() {
                 </p>
                 
                 <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button size="lg" className="px-8 py-3 text-lg" asChild>
-                    <Link href="/register/student">
-                      <UserCheck className="mr-2 h-5 w-5" />
-                      Register as Student
-                    </Link>
+                  <Button size="lg" className="px-8 py-3 text-lg" onClick={() => openPopup('register', 'STUDENT')}>
+                    <UserCheck className="mr-2 h-5 w-5" />
+                    Register as Student
                   </Button>
-                  <Button variant="outline" size="lg" className="px-8 py-3 text-lg" asChild>
-                    <Link href="/register/tutor">
-                      <GraduationCap className="mr-2 h-5 w-5" />
-                      Register as Tutor
-                </Link>
+                  <Button variant="outline" size="lg" className="px-8 py-3 text-lg" onClick={() => openPopup('register', 'TUTOR')}>
+                    <GraduationCap className="mr-2 h-5 w-5" />
+                    Register as Tutor
                   </Button>
                   <Button variant="outline" size="lg" className="px-8 py-3 text-lg" asChild>
                     <Link href="/courses">
@@ -449,17 +448,13 @@ export default function Home() {
                 Choose your preferred mode - online or offline sessions in Delhi.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="px-8 py-3 text-lg" asChild>
-                  <Link href="/register/student">
-                    <UserCheck className="mr-2 h-5 w-5" />
-                    Register as Student
-                  </Link>
+                <Button size="lg" className="px-8 py-3 text-lg" onClick={() => openPopup('register', 'STUDENT')}>
+                  <UserCheck className="mr-2 h-5 w-5" />
+                  Register as Student
                 </Button>
-                <Button variant="outline" size="lg" className="px-8 py-3 text-lg" asChild>
-                  <Link href="/register/tutor">
-                    <GraduationCap className="mr-2 h-5 w-5" />
-                    Become a Tutor
-                  </Link>
+                <Button variant="outline" size="lg" className="px-8 py-3 text-lg" onClick={() => openPopup('register', 'TUTOR')}>
+                  <GraduationCap className="mr-2 h-5 w-5" />
+                  Become a Tutor
                 </Button>
               </div>
             </div>

@@ -87,7 +87,7 @@ export function withAuth(handler: Function) {
     const { user, error } = await authenticateUser(req);
     
     if (error || !user) {
-      return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.redirect(new URL('/', req.url));
     }
     
     return handler(req, user);

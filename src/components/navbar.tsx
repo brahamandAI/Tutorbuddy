@@ -20,9 +20,11 @@ import {
   Video // Add Video icon for online teaching
 } from 'lucide-react'
 import { useState } from 'react'
+import { useAuthPopup } from '@/hooks/useAuthPopup'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { openPopup } = useAuthPopup()
 
   const mainNavigation = [
     { name: 'Home', href: '/', icon: <Home className="h-4 w-4" /> },
@@ -41,10 +43,7 @@ export default function Navbar() {
     { name: 'Contact', href: '/contact', icon: <MessageSquare className="h-4 w-4" /> }
   ]
 
-  const authLinks = [
-    { name: 'Student Registration', href: '/register/student', icon: <User className="h-4 w-4" /> },
-    { name: 'Tutor Registration', href: '/register/tutor', icon: <GraduationCap className="h-4 w-4" /> }
-  ]
+
 
   return (
     <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -124,17 +123,22 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-4">
             <ThemeToggle />
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm" asChild className="hover:bg-primary/10">
-                <Link href="/register/student">
-                  <User className="mr-2 h-4 w-4" />
-                  Student
-                </Link>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => openPopup('register')}
+                className="hover:bg-primary/10"
+              >
+                <User className="mr-2 h-4 w-4" />
+                Sign Up
               </Button>
-              <Button size="sm" asChild className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                <Link href="/register/tutor">
-                  <GraduationCap className="mr-2 h-4 w-4" />
-                  Tutor
-                </Link>
+              <Button 
+                size="sm" 
+                onClick={() => openPopup('login')}
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+              >
+                <GraduationCap className="mr-2 h-4 w-4" />
+                Sign In
               </Button>
             </div>
           </div>
@@ -214,17 +218,26 @@ export default function Navbar() {
                 <h3 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   Get Started
                 </h3>
-                {authLinks.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.icon}
-                    <span>{item.name}</span>
-                  </Link>
-                ))}
+                <button
+                  onClick={() => {
+                    openPopup('register');
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors w-full text-left"
+                >
+                  <User className="h-4 w-4" />
+                  <span>Sign Up</span>
+                </button>
+                <button
+                  onClick={() => {
+                    openPopup('login');
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors w-full text-left"
+                >
+                  <GraduationCap className="h-4 w-4" />
+                  <span>Sign In</span>
+                </button>
               </div>
 
               {/* Theme Toggle */}

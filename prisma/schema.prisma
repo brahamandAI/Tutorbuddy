@@ -11,9 +11,14 @@ generator client {
 model User {
   id        String   @id @default(cuid()) @map("_id")
   email     String   @unique
-  password  String
+  password  String?  // Optional for OAuth users
   name      String
-  role      String   // 'student' | 'tutor'
+  role      String   // 'STUDENT' | 'TUTOR'
+  provider  String   @default("email") // 'email' | 'google' | 'facebook'
+  googleId  String?  // Google OAuth ID (not unique to allow null values)
+  picture   String?  // Profile picture URL
+  emailVerified Boolean @default(false)
+  lastLogin DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

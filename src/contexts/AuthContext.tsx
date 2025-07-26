@@ -15,6 +15,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, role: string) => Promise<void>;
+  loginWithGoogle: (accessToken: string, role: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -108,19 +109,63 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const loginWithGoogle = async (accessToken: string, role: string) => {
+    try {
+      console.log('AuthContext: Starting Google login with role:', role);
+      
+      const response = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ accessToken, role }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Google authentication failed');
+      }
+
+      const data = await response.json();
+      console.log('AuthContext: Google auth response:', data);
+      
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        console.log('AuthContext: Token stored in localStorage');
+      }
+      
+      setUser(data.user);
+      setIsAuthenticated(true);
+      console.log('AuthContext: User state updated:', data.user);
+      
+      // Redirect based on role
+      console.log('AuthContext: Redirecting to dashboard for role:', data.user.role);
+      if (data.user.role === 'STUDENT') {
+        router.push('/student/dashboard');
+      } else if (data.user.role === 'TUTOR') {
+        router.push('/tutor/dashboard');
+      } else {
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      throw error;
+    }
+  };
+
   const logout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
       setUser(null);
       setIsAuthenticated(false);
-      router.push('/login');
+      router.push('/');
     } catch (error) {
       console.error('Logout error:', error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, register, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
